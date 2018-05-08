@@ -22,12 +22,10 @@ class Utils {
     def currentBuild = script.currentBuild
     def env = script.env
     def color
-    def duration = ''
-    def status = summary ? (currentBuild.result || 'SUCCESS') : 'STARTED'
+    def status = currentBuild.result || 'SUCCESS'
+    def duration = "after ${Util.getTimeSpanString(System.currentTimeMillis() - currentBuild.startTimeInMillis)} "
 
-    if (status == 'STARTED') {
-      color = '#244F7D'
-    } else if (status == 'SUCCESS') {
+    if (status == 'SUCCESS') {
       color = 'good'
     } else if (status == 'UNSTABLE') {
       color = 'warning'
@@ -35,13 +33,9 @@ class Utils {
       color = 'danger'
     }
 
-    if (status != 'STARTED') {
-      duration = "after ${Util.getTimeSpanString(System.currentTimeMillis() - currentBuild.startTimeInMillis)} "
-    }
-
     def msg = "${env.JOB_NAME} - #${env.BUILD_NUMBER} ${status.toLowerCase().capitalize()} ${duration}(<${env.RUN_DISPLAY_URL}|Open>)"
 
-    if (status == 'SUCCESS' || status == 'UNSTABLE' && summary != null) {
+    if (summary != null) {
       msg += "\nTest Status:\n    Passed: ${summary.getPassCount()}, Failed: ${summary.getFailCount()}, Skipped: ${summary.getSkipCount()}"
     }
 
