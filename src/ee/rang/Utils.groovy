@@ -17,28 +17,4 @@ class Utils {
 
     isManual
   }
-
-  static def notifySlack(script, TestResultSummary summary = null) {
-    def currentBuild = script.currentBuild
-    def env = script.env
-    def color
-    def status = currentBuild.result || 'SUCCESS'
-    def duration = "after ${Util.getTimeSpanString(System.currentTimeMillis() - currentBuild.startTimeInMillis)} "
-
-    if (status == 'SUCCESS') {
-      color = 'good'
-    } else if (status == 'UNSTABLE') {
-      color = 'warning'
-    } else {
-      color = 'danger'
-    }
-
-    def msg = "${env.JOB_NAME} - #${env.BUILD_NUMBER} ${status.toLowerCase().capitalize()} ${duration}(<${env.RUN_DISPLAY_URL}|Open>)"
-
-    if (summary != null) {
-      msg += "\nTest Status:\n    Passed: ${summary.getPassCount()}, Failed: ${summary.getFailCount()}, Skipped: ${summary.getSkipCount()}"
-    }
-
-    script.slackSend(color: color, message: msg)
-  }
 }
