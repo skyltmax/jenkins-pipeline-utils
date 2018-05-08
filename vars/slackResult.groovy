@@ -1,5 +1,3 @@
-#!/usr/bin/env groovy
-
 import hudson.tasks.junit.TestResultSummary
 import hudson.Util
 
@@ -22,5 +20,5 @@ def call(TestResultSummary summary = null) {
     msg += "\nTest Status:\n    Passed: ${summary.getPassCount()}, Failed: ${summary.getFailCount()}, Skipped: ${summary.getSkipCount()}"
   }
 
-  script.slackSend(color: color, message: msg)
+  slackSend(color: color, message: msg)
 }
