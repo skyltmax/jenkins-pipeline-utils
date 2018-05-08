@@ -4,9 +4,9 @@ import hudson.tasks.junit.TestResultSummary
 import hudson.Util
 
 class Utils {
-  static def manualTrigger(currentBuild) {
+  static def manualTrigger(script) {
     def isManual = false
-    def causes = currentBuild.rawBuild.getCauses()
+    def causes = script.currentBuild.rawBuild.getCauses()
 
     for (cause in causes) {
       if (cause.properties.shortDescription =~ 'Started by user') {
@@ -18,10 +18,12 @@ class Utils {
     isManual
   }
 
-  static def notifySlack(env, String status = 'STARTED', TestResultSummary summary = null) {
+  static def notifySlack(script, TestResultSummary summary = null) {
+    def currentBuild = script.currentBuild
+    def env = script.env
     def color
     def duration = ''
-    status = status ?: 'SUCCESS'
+    def status = summary ? (currentBuild.result || 'SUCCESS') : 'STARTED'
 
     if (status == 'STARTED') {
       color = '#244F7D'
@@ -43,6 +45,6 @@ class Utils {
       msg += "\nTest Status:\n    Passed: ${summary.getPassCount()}, Failed: ${summary.getFailCount()}, Skipped: ${summary.getSkipCount()}"
     }
 
-    slackSend(color: color, message: msg)
+    script.slackSend(color: color, message: msg)
   }
 }
