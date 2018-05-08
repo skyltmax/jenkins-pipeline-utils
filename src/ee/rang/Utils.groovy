@@ -18,7 +18,7 @@ class Utils {
     isManual
   }
 
-  def notifySlack(String status = 'STARTED', TestResultSummary summary = null) {
+  static def notifySlack(String status = 'STARTED', TestResultSummary summary = null) {
     def color
     def duration = ''
     status = status ?: 'SUCCESS'
