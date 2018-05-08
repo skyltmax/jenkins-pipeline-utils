@@ -3,7 +3,7 @@ import hudson.Util
 
 def call(TestResultSummary summary = null) {
   def color
-  def status = currentBuild.result || 'SUCCESS'
+  def status = currentBuild.result ?: 'SUCCESS'
   def duration = "after ${Util.getTimeSpanString(System.currentTimeMillis() - currentBuild.startTimeInMillis)} "
 
   if (status == 'SUCCESS') {
