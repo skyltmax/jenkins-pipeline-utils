@@ -20,8 +20,5 @@ def call(TestResultSummary summary = null) {
     msg += "\nTest Status:\n    Passed: ${summary.getPassCount()}, Failed: ${summary.getFailCount()}, Skipped: ${summary.getSkipCount()}"
   }
 
-  echo color
-  echo msg
-
   slackSend(color: color, message: msg)
 }
