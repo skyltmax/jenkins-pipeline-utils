@@ -25,8 +25,8 @@ def call(TestResultSummary summary = null, AnnotatedReport warnings = null) {
     JSONObject resultAttachment = new JSONObject();
 
     resultAttachment.put('text', '');
-    resultAttachment.put('fallback', "\nTest Status: Passed: ${summary.getPassCount()}, Failed: ${summary.getFailCount()}, Skipped: ${summary.getSkipCount()}");
-    resultAttachment.put('color', '#ff0000');
+    resultAttachment.put('fallback', "Test Status: Passed: ${summary.getPassCount()}, Failed: ${summary.getFailCount()}, Skipped: ${summary.getSkipCount()}");
+    resultAttachment.put('color', color);
 
     JSONArray fields = new JSONArray();
 
@@ -56,6 +56,33 @@ def call(TestResultSummary summary = null, AnnotatedReport warnings = null) {
 
     resultAttachment.put('fields', fields);
     attachments.add(resultAttachment);
+  }
+
+  if (warnings != null) {
+    def warningsColor
+
+    if (warnings.size() > 0) {
+      warningsColor = '#DCA047'
+    } else {
+      warningsColor = '#37A254'
+    }
+
+    JSONObject warningsAttachment = new JSONObject();
+
+    warningsAttachment.put('text', 'Static analysis');
+    warningsAttachment.put('fallback', "Static analysis warnings: ${warnings.size()}");
+    warningsAttachment.put('color', warningsColor);
+
+    JSONArray fields = new JSONArray();
+
+    JSONObject durationField = new JSONObject();
+    warningsField.put('title', 'Warnings')
+    warningsField.put('value', warnings.size())
+    warningsField.put('short', true)
+    fields.add(warningsField);
+
+    warningsAttachment.put('fields', fields);
+    attachments.add(warningsAttachment);
   }
 
   slackSend(color: color, message: msg, attachments: attachments.toString())
