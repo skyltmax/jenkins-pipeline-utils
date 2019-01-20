@@ -22,8 +22,6 @@ def call(TestResultSummary summary = null, AnnotatedReport warnings = null) {
   JSONArray attachments = new JSONArray();
 
   if (summary != null) {
-    msg += "\nTest Status:\n    Passed: ${summary.getPassCount()}, Failed: ${summary.getFailCount()}, Skipped: ${summary.getSkipCount()}"
-
     JSONObject resultAttachment = new JSONObject();
 
     resultAttachment.put('text', '');
