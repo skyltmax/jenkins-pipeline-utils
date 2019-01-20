@@ -69,16 +69,16 @@ def call(TestResultSummary summary = null, AnnotatedReport warnings = null) {
 
     JSONObject warningsAttachment = new JSONObject();
 
-    warningsAttachment.put('text', 'Static analysis');
+    warningsAttachment.put('text', '');
     warningsAttachment.put('fallback', "Static analysis warnings: ${warnings.size()}");
     warningsAttachment.put('color', warningsColor);
 
     JSONArray fields = new JSONArray();
 
     JSONObject warningsField = new JSONObject();
-    warningsField.put('title', 'Warnings')
+    warningsField.put('title', 'Static analysis warnings')
     warningsField.put('value', warnings.size())
-    warningsField.put('short', true)
+    warningsField.put('short', false)
     fields.add(warningsField);
 
     warningsAttachment.put('fields', fields);
