@@ -75,7 +75,7 @@ def call(TestResultSummary summary = null, AnnotatedReport warnings = null) {
 
     JSONArray fields = new JSONArray();
 
-    JSONObject durationField = new JSONObject();
+    JSONObject warningsField = new JSONObject();
     warningsField.put('title', 'Warnings')
     warningsField.put('value', warnings.size())
     warningsField.put('short', true)
