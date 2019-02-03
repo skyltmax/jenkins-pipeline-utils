@@ -8,7 +8,7 @@ import hudson.model.*
 def call(TestResultSummary summary = null, ArrayList<AnnotatedReport> warnings = new ArrayList<AnnotatedReport>([])) {
   def color
   def status = currentBuild.result ?: 'SUCCESS'
-  def duration = "after ${Util.getTimeSpanString(System.currentTimeMillis() - currentBuild.startTimeInMillis)} "
+  def duration = "after ${Util.getTimeSpanString(System.currentTimeMillis() - currentBuild.startTimeInMillis)} ".toString()
 
   if (status == 'SUCCESS') {
     color = '#37A254'
@@ -18,7 +18,7 @@ def call(TestResultSummary summary = null, ArrayList<AnnotatedReport> warnings =
     color = '#D22025'
   }
 
-  def msg = "${env.JOB_NAME} - #${env.BUILD_NUMBER} ${status.toLowerCase().capitalize()} ${duration}(<${env.RUN_DISPLAY_URL}|Open>)"
+  def msg = "${env.JOB_NAME} - #${env.BUILD_NUMBER} ${status.toLowerCase().capitalize()} ${duration}(<${env.RUN_DISPLAY_URL}|Open>)".toString()
 
   JSONArray attachments = new JSONArray();
 
@@ -26,7 +26,7 @@ def call(TestResultSummary summary = null, ArrayList<AnnotatedReport> warnings =
     JSONObject resultAttachment = new JSONObject();
 
     resultAttachment.put('text', '');
-    resultAttachment.put('fallback', "Test Status: Passed: ${summary.getPassCount()}, Failed: ${summary.getFailCount()}, Skipped: ${summary.getSkipCount()}");
+    resultAttachment.put('fallback', "Test Status: Passed: ${summary.getPassCount()}, Failed: ${summary.getFailCount()}, Skipped: ${summary.getSkipCount()}".toString());
     resultAttachment.put('color', color);
 
     JSONArray fields = new JSONArray();
@@ -72,12 +72,12 @@ def call(TestResultSummary summary = null, ArrayList<AnnotatedReport> warnings =
   }
 
   warningsAttachment.put('text', '');
-  warningsAttachment.put('fallback', "Static analysis warnings: ${totalWarnings}");
+  warningsAttachment.put('fallback', "Static analysis warnings: ${totalWarnings}".toString());
   warningsAttachment.put('color', warningsColor);
 
   warnings.each {
     JSONObject warningsField = new JSONObject();
-    warningsField.put('title', "${it.getId()} warnings")
+    warningsField.put('title', "${it.getId()} warnings".toString())
     warningsField.put('value', it.size())
     warningsField.put('short', true)
     warningsFields.add(warningsField);
