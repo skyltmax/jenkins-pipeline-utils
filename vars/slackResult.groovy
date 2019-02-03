@@ -5,10 +5,6 @@ import net.sf.json.JSONArray
 import net.sf.json.JSONObject
 import hudson.model.*
 
-// Get the out variable
-def out = getBinding().out;
-
-
 def call(TestResultSummary summary = null, ArrayList<AnnotatedReport> warnings = new ArrayList<AnnotatedReport>([])) {
   def color
   def status = currentBuild.result ?: 'SUCCESS'
@@ -90,6 +86,8 @@ def call(TestResultSummary summary = null, ArrayList<AnnotatedReport> warnings =
   warningsAttachment.put('fields', warningsFields);
   attachments.add(warningsAttachment);
 
+  // Get the out variable
+  def out = getBinding().out;
   out.println(attachments.toString());
 
   slackSend(color: color, message: msg, attachments: attachments.toString());
