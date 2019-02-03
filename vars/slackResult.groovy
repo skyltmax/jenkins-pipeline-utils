@@ -71,7 +71,7 @@ def call(TestResultSummary summary = null, ArrayList<AnnotatedReport> warnings =
     warningsColor = '#37A254'
   }
 
-  warningsAttachment.put('text', 'Static analysis warnings');
+  warningsAttachment.put('text', '');
   warningsAttachment.put('fallback', "Static analysis warnings: ${totalWarnings}".toString());
   warningsAttachment.put('color', warningsColor);
 
@@ -85,8 +85,6 @@ def call(TestResultSummary summary = null, ArrayList<AnnotatedReport> warnings =
 
   warningsAttachment.put('fields', warningsFields);
   attachments.add(warningsAttachment);
-
-  println(attachments.toString());
 
   slackSend(color: color, message: msg, attachments: attachments.toString());
 }
