@@ -58,32 +58,32 @@ def call(TestResultSummary summary = null, ArrayList<AnnotatedReport> warnings =
     attachments.add(resultAttachment);
   }
 
+  JSONObject warningsAttachment = new JSONObject();
+  JSONArray warningsFields = new JSONArray();
+
+  def totalWarnings = warnings.sum { it.size() }
+  def warningsColor
+
+  if (totalWarnings > 0) {
+    warningsColor = '#DCA047'
+  } else {
+    warningsColor = '#37A254'
+  }
+
+  warningsAttachment.put('text', '');
+  warningsAttachment.put('fallback', "Static analysis warnings: ${totalWarnings}");
+  warningsAttachment.put('color', warningsColor);
+
   warnings.each {
-    def warningsColor
-
-    if (it.size() > 0) {
-      warningsColor = '#DCA047'
-    } else {
-      warningsColor = '#37A254'
-    }
-
-    JSONObject warningsAttachment = new JSONObject();
-
-    warningsAttachment.put('text', '');
-    warningsAttachment.put('fallback', "${it.getId()} warnings: ${it.size()}");
-    warningsAttachment.put('color', warningsColor);
-
-    JSONArray fields = new JSONArray();
-
     JSONObject warningsField = new JSONObject();
     warningsField.put('title', "${it.getId()} warnings")
     warningsField.put('value', it.size())
     warningsField.put('short', true)
-    fields.add(warningsField);
-
-    warningsAttachment.put('fields', fields);
-    attachments.add(warningsAttachment);
+    warningsFields.add(warningsField);
   }
+
+  warningsAttachment.put('fields', warningsFields);
+  attachments.add(warningsAttachment);
 
   slackSend(color: color, message: msg, attachments: attachments.toString())
 }
