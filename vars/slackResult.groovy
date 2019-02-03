@@ -4,7 +4,7 @@ import io.jenkins.plugins.analysis.core.steps.AnnotatedReport
 import net.sf.json.JSONArray
 import net.sf.json.JSONObject
 
-def call(TestResultSummary summary = null, AnnotatedReport[] warnings = []) {
+def call(TestResultSummary summary = null, ArrayList<AnnotatedReport> warnings = new ArrayList<AnnotatedReport>([])) {
   def color
   def status = currentBuild.result ?: 'SUCCESS'
   def duration = "after ${Util.getTimeSpanString(System.currentTimeMillis() - currentBuild.startTimeInMillis)} "
