@@ -78,7 +78,7 @@ def call(TestResultSummary summary = null, ArrayList<AnnotatedReport> warnings =
     JSONObject warningsField = new JSONObject();
     warningsField.put('title', "${it.getId()} warnings")
     warningsField.put('value', it.size())
-    warningsField.put('short', false)
+    warningsField.put('short', true)
     fields.add(warningsField);
 
     warningsAttachment.put('fields', fields);
