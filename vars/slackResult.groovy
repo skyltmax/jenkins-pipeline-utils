@@ -86,9 +86,7 @@ def call(TestResultSummary summary = null, ArrayList<AnnotatedReport> warnings =
   warningsAttachment.put('fields', warningsFields);
   attachments.add(warningsAttachment);
 
-  // Get the out variable
-  def out = getBinding().out;
-  out.println(attachments.toString());
+  println(attachments.toString());
 
   slackSend(color: color, message: msg, attachments: attachments.toString());
 }
