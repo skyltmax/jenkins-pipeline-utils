@@ -3,6 +3,11 @@ import hudson.Util
 import io.jenkins.plugins.analysis.core.steps.AnnotatedReport
 import net.sf.json.JSONArray
 import net.sf.json.JSONObject
+import hudson.model.*
+
+// Get the out variable
+def out = getBinding().out;
+
 
 def call(TestResultSummary summary = null, ArrayList<AnnotatedReport> warnings = new ArrayList<AnnotatedReport>([])) {
   def color
@@ -85,7 +90,7 @@ def call(TestResultSummary summary = null, ArrayList<AnnotatedReport> warnings =
   warningsAttachment.put('fields', warningsFields);
   attachments.add(warningsAttachment);
 
-  manager.listener.logger.println(attachments.toString());
+  out.println(attachments.toString());
 
-  slackSend(color: color, message: msg, attachments: attachments.toString())
+  slackSend(color: color, message: msg, attachments: attachments.toString());
 }
