@@ -71,7 +71,7 @@ def call(TestResultSummary summary = null, ArrayList<AnnotatedReport> warnings =
     warningsColor = '#37A254'
   }
 
-  warningsAttachment.put('text', '');
+  warningsAttachment.put('text', 'Static analysis warnings');
   warningsAttachment.put('fallback', "Static analysis warnings: ${totalWarnings}".toString());
   warningsAttachment.put('color', warningsColor);
 
