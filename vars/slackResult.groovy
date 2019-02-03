@@ -85,5 +85,7 @@ def call(TestResultSummary summary = null, ArrayList<AnnotatedReport> warnings =
   warningsAttachment.put('fields', warningsFields);
   attachments.add(warningsAttachment);
 
+  manager.listener.logger.println(attachments.toString());
+
   slackSend(color: color, message: msg, attachments: attachments.toString())
 }
