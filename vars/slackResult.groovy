@@ -6,6 +6,7 @@ import net.sf.json.JSONObject
 import hudson.model.*
 
 def call(TestResultSummary summary = null, ArrayList<AnnotatedReport> warnings = new ArrayList<AnnotatedReport>([])) {
+  def job_name = env.JOB_NAME.replaceAll("%2F", "/")
   def color
   def status = currentBuild.result ?: 'SUCCESS'
   def duration = "after ${Util.getTimeSpanString(System.currentTimeMillis() - currentBuild.startTimeInMillis)} ".toString()
@@ -18,7 +19,7 @@ def call(TestResultSummary summary = null, ArrayList<AnnotatedReport> warnings =
     color = '#D22025'
   }
 
-  def msg = "${env.JOB_NAME} - #${env.BUILD_NUMBER} ${status.toLowerCase().capitalize()} ${duration}(<${env.RUN_DISPLAY_URL}|Open>)".toString()
+  def msg = "${job_name} - #${env.BUILD_NUMBER} ${status.toLowerCase().capitalize()} ${duration}(<${env.RUN_DISPLAY_URL}|Open>)".toString()
 
   JSONArray attachments = new JSONArray();
 
