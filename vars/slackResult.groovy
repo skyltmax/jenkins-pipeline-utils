@@ -5,7 +5,7 @@ import net.sf.json.JSONArray
 import net.sf.json.JSONObject
 import hudson.model.*
 
-def call(TestResultSummary summary = null, ArrayList<AnnotatedReport> warnings = new ArrayList<AnnotatedReport>([])) {
+def call(TestResultSummary summary = null, ArrayList<AnnotatedReport> warnings = null) {
   def job_name = env.JOB_NAME.replaceAll("%2F", "/")
   def color
   def status = currentBuild.result ?: 'SUCCESS'
@@ -60,11 +60,11 @@ def call(TestResultSummary summary = null, ArrayList<AnnotatedReport> warnings =
     attachments.add(resultAttachment);
   }
 
-  if (warnings != null) {
+  if (warnings != null && warnings.size() > 0) {
     JSONObject warningsAttachment = new JSONObject();
     JSONArray warningsFields = new JSONArray();
 
-    def totalWarnings = warnings.sum { it.size() }
+    def totalWarnings = warnings.sum { it == null ? 0 : it.size() }
     def warningsColor
 
     if (totalWarnings > 0) {
@@ -86,7 +86,10 @@ def call(TestResultSummary summary = null, ArrayList<AnnotatedReport> warnings =
     }
 
     warningsAttachment.put('fields', warningsFields);
-    attachments.add(warningsAttachment);
+
+    if (warningsFields.size() > 0) {
+      attachments.add(warningsAttachment);
+    }
   }
 
   slackSend(color: color, message: msg, attachments: attachments.toString());
