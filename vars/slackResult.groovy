@@ -77,12 +77,14 @@ def call(TestResultSummary summary = null, ArrayList<AnnotatedReport> warnings =
     warningsAttachment.put('fallback', "Static analysis warnings: ${totalWarnings}".toString());
     warningsAttachment.put('color', warningsColor);
 
-    warnings.each {
-      JSONObject warningsField = new JSONObject();
-      warningsField.put('title', "${it.getId()} warnings".toString())
-      warningsField.put('value', it.size())
-      warningsField.put('short', true)
-      warningsFields.add(warningsField);
+    if (totalWarnings > 0) {
+      warnings.each {
+        JSONObject warningsField = new JSONObject();
+        warningsField.put('title', "${it.getId()} warnings".toString())
+        warningsField.put('value', it.size())
+        warningsField.put('short', true)
+        warningsFields.add(warningsField);
+      }
     }
 
     warningsAttachment.put('fields', warningsFields);
