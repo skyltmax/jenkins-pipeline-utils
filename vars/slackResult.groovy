@@ -12,9 +12,9 @@ def call(TestResultSummary summary = null, ArrayList<AnnotatedReport> warnings =
   def duration = "after ${Util.getTimeSpanString(System.currentTimeMillis() - currentBuild.startTimeInMillis)} ".toString()
 
   // it's a pull request
-  if (job_name.contains("/PR-")) {
+  if (env.BRANCH_NAME.startsWith('PR-')) {
     def name_parts = job_name.split("/PR-")
-    job_name = name_parts[0] + "/" + env.CHANGE_TARGET.replaceAll("%2F", "/") + " PR merge"
+    job_name = name_parts[0] + "/" + env.CHANGE_BRANCH.replaceAll("%2F", "/") + " PR merge"
   }
 
   if (status == 'SUCCESS') {
