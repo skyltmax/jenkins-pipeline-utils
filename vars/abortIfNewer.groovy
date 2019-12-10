@@ -9,9 +9,6 @@ def call() {
   def instance = Hudson.instance
   def pname = env.JOB_NAME.split('/')[0]
 
-  println(pname)
-  println(env.JOB_BASE_NAME)
-
   instance.getItem(pname).getItem(env.JOB_BASE_NAME).getBuilds().each{ build ->
     def exec = build.getExecutor()
 
