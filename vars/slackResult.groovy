@@ -14,7 +14,7 @@ def call(TestResultSummary summary = null, ArrayList<AnnotatedReport> warnings =
   // it's a pull request
   if (env.BRANCH_NAME.startsWith('PR-')) {
     def name_parts = job_name.split("/PR-")
-    job_name = name_parts[0] + "/" + env.CHANGE_BRANCH.replaceAll("%2F", "/") + " PR merge"
+    job_name = name_parts[0] + "/" + env.CHANGE_BRANCH.replaceAll("%2F", "/") + " PR <${env.CHANGE_URL}|#${name_parts[1]}> merge"
   }
 
   if (status == 'SUCCESS') {
