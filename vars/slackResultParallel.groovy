@@ -28,17 +28,17 @@ def call(ArrayList<TestResultSummary> results = []) {
 
   JSONArray attachments = new JSONArray();
 
-  def passCount = 0
-  def failCount = 0
-  def skipCount = 0
+  if (results.size() > 0 && status != 'ABORTED') {
+    def passCount = 0
+    def failCount = 0
+    def skipCount = 0
 
-  results.each {
-    passCount += it.getPassCount()
-    failCount += it.getFailCount()
-    skipCount += it.getSkipCount()
-  }
+    results.each {
+      passCount += it.getPassCount()
+      failCount += it.getFailCount()
+      skipCount += it.getSkipCount()
+    }
 
-  if (results.size() > 0) {
     JSONObject resultAttachment = new JSONObject();
 
     resultAttachment.put('text', '');
