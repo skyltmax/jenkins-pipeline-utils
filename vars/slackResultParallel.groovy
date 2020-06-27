@@ -20,6 +20,8 @@ def call(ArrayList<TestResultSummary> results = []) {
     color = '#37A254'
   } else if (status == 'UNSTABLE') {
     color = '#DCA047'
+  } else if (status == 'ABORTED') {
+    color = '#DCA047'
   } else {
     color = '#D22025'
   }
