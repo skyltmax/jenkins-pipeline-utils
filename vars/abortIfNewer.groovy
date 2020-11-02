@@ -13,12 +13,7 @@ def call() {
     def exec = build.getExecutor()
 
     if (build.number < currentBuild.number && exec != null) {
-      exec.interrupt(
-        Result.ABORTED,
-        new CauseOfInterruption.UserInterruption(
-          "Aborted by #${currentBuild.number}"
-        )
-      )
+      exec.doStop()
       println("Aborted previous running build #${build.number}")
     }
   }
